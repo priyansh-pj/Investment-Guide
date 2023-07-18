@@ -1,4 +1,5 @@
 import InterestTableElements from "./IntrestTableElements";
+import "./InterestTable.css"
 const IntrestTable = ({data}) => {
   return (
     <table className="result">

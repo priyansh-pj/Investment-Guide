@@ -1,13 +1,14 @@
 import Header from "./components/UI/Header";
 import CalculatorForm from "./components/Calculator/CalculatorForm";
 import IntrestTable from "./components/InterestTable/InterestTable";
+import "./App.css";
 import { useState } from "react";
 
 function App() {
   const [yearlyData, setYearlyData] = useState([]);
-  console.log(yearlyData.length !==0)
+
   const calculateHandler = (userInput) => {
-    console.log("Calculator is tringeer with ", userInput);
+    // console.log("Calculator is tringeer with ", userInput);
     // Should be triggered when form is submitted
     // You might not directly want to bind it to the submit event on the form though...
 
@@ -26,6 +27,10 @@ function App() {
         // feel free to change the shape of the data pushed to the array!
         year: i + 1,
         yearlyInterest: yearlyInterest,
+        totalInterest:
+          i === 0
+            ? yearlyInterest
+            : yearlyDatas[i - 1].totalInterest + yearlyInterest,
         savingsEndOfYear: currentSavings,
         yearlyContribution: yearlyContribution,
       });
@@ -36,8 +41,12 @@ function App() {
   return (
     <div>
       <Header />
-      <CalculatorForm onCalculate={calculateHandler} />
-      {(yearlyData.length!==0)?<IntrestTable data={yearlyData}/>:''}
+      <CalculatorForm onCalculate={calculateHandler} onReset={()=>{setYearlyData([])}}/>
+      {yearlyData.length !== 0 ? (
+        <IntrestTable data={yearlyData} />
+      ) : (
+        <p className="no-table">No Investment Calculated Yet</p>
+      )}
       {/* Todo: Show below table conditionally (only once result data is available) */}
       {/* Show fallback text if no data is available */}
     </div>

@@ -1,6 +1,6 @@
 import { useState } from "react";
-
-const CalculatorForm = ({onCalculate}) => {
+import "./CalculatorForm.css";
+const CalculatorForm = ({ onCalculate , onReset}) => {
   const [currentSavings, setCurrentSavings] = useState(0);
   const [yearlyContribution, setYearlyContribution] = useState(0);
   const [expectedReturn, setExpectedReturn] = useState(0);
@@ -35,6 +35,15 @@ const CalculatorForm = ({onCalculate}) => {
     setDuration(0);
   };
 
+  const resetButton = (event) =>{
+    onReset()
+    event.preventDefault();
+    setCurrentSavings(0);
+    setYearlyContribution(0);
+    setExpectedReturn(0);
+    setDuration(0);
+  }
+
   return (
     <form className="form" onSubmit={calculateSubmit}>
       <div className="input-group">
@@ -43,7 +52,7 @@ const CalculatorForm = ({onCalculate}) => {
           <input
             type="number"
             id="current-savings"
-            value={(currentSavings===0)?'':currentSavings}
+            value={currentSavings === 0 ? "" : currentSavings}
             onChange={(event) => {
               updateValue("current-savings", event.target.value);
             }}
@@ -54,7 +63,7 @@ const CalculatorForm = ({onCalculate}) => {
           <input
             type="number"
             id="yearly-contribution"
-            value={(yearlyContribution===0)?'':yearlyContribution}
+            value={yearlyContribution === 0 ? "" : yearlyContribution}
             onChange={(event) => {
               updateValue("yearly-contribution", event.target.value);
             }}
@@ -69,7 +78,7 @@ const CalculatorForm = ({onCalculate}) => {
           <input
             type="number"
             id="expected-return"
-            value={(expectedReturn===0)?'':expectedReturn}
+            value={expectedReturn === 0 ? "" : expectedReturn}
             onChange={(event) => {
               updateValue("expected-return", event.target.value);
             }}
@@ -80,7 +89,7 @@ const CalculatorForm = ({onCalculate}) => {
           <input
             type="number"
             id="duration"
-            value={(duration===0)?'':duration}
+            value={duration === 0 ? "" : duration}
             onChange={(event) => {
               updateValue("duration", event.target.value);
             }}
@@ -88,7 +97,7 @@ const CalculatorForm = ({onCalculate}) => {
         </p>
       </div>
       <p className="actions">
-        <button type="reset" className="buttonAlt">
+        <button type="reset" onClick={resetButton} className="buttonAlt">
           Reset
         </button>
         <button type="submit" className="button">
